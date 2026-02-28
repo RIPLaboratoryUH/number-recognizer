@@ -93,6 +93,8 @@ def main():
                         help='Show camera preview window')
     parser.add_argument('--rotate', type=int, default=180,
                         help='Rotation in degrees (default: 180)')
+    parser.add_argument('--exposure', type=float, default=None,
+                        help='Camera exposure (lower = darker). Try -7 to -1 for USB cams.')
     args = parser.parse_args()
 
     set_rotation(args.rotate)
@@ -113,6 +115,11 @@ def main():
     if not cap.isOpened():
         print(f"Error: could not open camera {cam_source}")
         sys.exit(1)
+
+    if args.exposure is not None:
+        cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)   # manual mode
+        cap.set(cv2.CAP_PROP_EXPOSURE, args.exposure)
+        print(f"Exposure set to {args.exposure}")
 
     print(f"Sampling at {args.rate} Hz | Ctrl+C to stop")
     print("-" * 40)
