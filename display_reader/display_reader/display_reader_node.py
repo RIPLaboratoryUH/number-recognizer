@@ -84,7 +84,7 @@ class DisplayReaderNode(Node):
         self.declare_parameter('camera', '0')
         self.declare_parameter('rate', 3.0)
         self.declare_parameter('rotation', 180)
-        self.declare_parameter('exposure', -1.0)
+        self.declare_parameter('exposure', 10.0)
         self.declare_parameter('model_path', '')
 
         # Read parameters
@@ -121,8 +121,8 @@ class DisplayReaderNode(Node):
             self.cap.set(cv2.CAP_PROP_EXPOSURE, exposure)
             self.get_logger().info(f'Exposure set to {exposure}')
 
-        # Import the custom message (generated at build time)
-        from display_reader.msg import DisplayReading
+        # Import the custom message
+        from display_reader_msgs.msg import DisplayReading
         self.DisplayReading = DisplayReading
 
         # Publisher

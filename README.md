@@ -94,6 +94,55 @@ python read_display.py captures/ --verify labels_new.json
 | `models/digit_cnn.keras` | Full Keras model (for retraining) |
 | `labels_new.json` | Current training labels |
 
+## ROS2 Package
+
+The `display_reader` and `display_reader_msgs` packages wrap the live feed into a ROS2 node.
+
+### Build
+```bash
+cd ~/GIT/number-recognizer
+colcon build
+source install/setup.bash
+```
+
+### Run
+```bash
+ros2 run display_reader display_reader_node
+ros2 run display_reader display_reader_node --ros-args -p exposure:=10.0
+ros2 launch display_reader display_reader.launch.py exposure:=10.0
+```
+
+### Topic
+
+| Topic | Type | Description |
+|-------|------|-------------|
+| `/display_reading` | `display_reader_msgs/DisplayReading` | Timestamped display value |
+
+### Custom Message (`DisplayReading.msg`)
+```
+std_msgs/Header header    # ROS2 timestamp for sensor fusion / odometry sync
+float64 data              # Display reading (NaN when dashes shown)
+```
+
+### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `camera` | `0` | Camera index or device path |
+| `rate` | `3.0` | Samples per second |
+| `rotation` | `180` | Image rotation degrees |
+| `exposure` | `-1.0` | Manual exposure (`-1` = auto) |
+| `model_path` | *(installed model)* | Path to TFLite model |
+
+### Package Structure
+
+| Package | Build Type | Purpose |
+|---------|-----------|---------|
+| `display_reader_msgs` | ament_cmake | Custom `DisplayReading.msg` definition |
+| `display_reader` | ament_python | Camera node + digit classification |
+
+---
+
 ## RPi5 Deployment
 
 Only these files are needed on the Pi:
