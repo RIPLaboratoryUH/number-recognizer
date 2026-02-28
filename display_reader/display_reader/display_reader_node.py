@@ -88,7 +88,7 @@ class DisplayReaderNode(Node):
         )
         self.declare_parameter('rate', 3.0)
         self.declare_parameter('rotation', 180)
-        self.declare_parameter('exposure', 10.0)
+        self.declare_parameter('exposure', 15.0)
         self.declare_parameter('model_path', '')
 
         # Read parameters
