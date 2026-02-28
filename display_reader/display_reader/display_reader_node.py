@@ -81,14 +81,18 @@ class DisplayReaderNode(Node):
         super().__init__('display_reader_node')
 
         # Declare parameters
-        self.declare_parameter('camera', '0')
+        from rcl_interfaces.msg import ParameterDescriptor
+        self.declare_parameter(
+            'camera', '0',
+            descriptor=ParameterDescriptor(dynamic_typing=True)
+        )
         self.declare_parameter('rate', 3.0)
         self.declare_parameter('rotation', 180)
         self.declare_parameter('exposure', 10.0)
         self.declare_parameter('model_path', '')
 
         # Read parameters
-        camera_param = self.get_parameter('camera').get_parameter_value().string_value
+        camera_param = str(self.get_parameter('camera').value)
         rate = self.get_parameter('rate').get_parameter_value().double_value
         rotation = self.get_parameter('rotation').get_parameter_value().integer_value
         exposure = self.get_parameter('exposure').get_parameter_value().double_value
