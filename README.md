@@ -3,6 +3,10 @@
 Reads thickness values from an ultrasonic gauge LCD display using a camera feed.
 Uses contour detection for digit segmentation and a small CNN (TFLite, 475 KB) for classification.
 
+## ROS2 Usage
+switch over to the ROS2 branch, and follow the README there.
+
+
 ## Quick Start (Runtime)
 
 ```bash
